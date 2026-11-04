@@ -100,39 +100,39 @@ main :: (fn() -> unit)({
   unsafe(SetTargetFPS(i32(60)));
 
   // ═══════════════════ Mutable game state ═══════════════════
-  (gameOver : bool) = false;
-  (pause : bool) = false;
+  (mut(gameOver) : bool) = false;
+  (mut(pause) : bool) = false;
 
-  (grid : Array(i32, 240)) = Array(i32, 240).fill(EMPTY);
-  (piece : Array(i32, 16)) = Array(i32, 16).fill(EMPTY);
-  (incoming : Array(i32, 16)) = Array(i32, 16).fill(EMPTY);
+  (mut(grid) : Array(i32, 240)) = Array(i32, 240).fill(EMPTY);
+  (mut(piece) : Array(i32, 16)) = Array(i32, 16).fill(EMPTY);
+  (mut(incoming) : Array(i32, 16)) = Array(i32, 16).fill(EMPTY);
 
   // Color tracking: which piece type occupies each cell
-  (colorGrid : Array(i32, 240)) = Array(i32, 240).fill(PIECE_NONE);
-  (currentPieceType : i32) = PIECE_NONE;
-  (incomingPieceType : i32) = PIECE_NONE;
+  (mut(colorGrid) : Array(i32, 240)) = Array(i32, 240).fill(PIECE_NONE);
+  (mut(currentPieceType) : i32) = PIECE_NONE;
+  (mut(incomingPieceType) : i32) = PIECE_NONE;
 
-  (pieceX : i32) = i32(0);
-  (pieceY : i32) = i32(0);
+  (mut(pieceX) : i32) = i32(0);
+  (mut(pieceY) : i32) = i32(0);
 
-  (beginPlay : bool) = true;
-  (pieceActive : bool) = false;
-  (detection : bool) = false;
-  (lineToDelete : bool) = false;
+  (mut(beginPlay) : bool) = true;
+  (mut(pieceActive) : bool) = false;
+  (mut(detection) : bool) = false;
+  (mut(lineToDelete) : bool) = false;
 
-  (fadingColor : Color) = GRAY;
-  (lines : i32) = i32(0);
+  (mut(fadingColor) : Color) = GRAY;
+  (mut(lines) : i32) = i32(0);
 
-  (gravityCounter : i32) = i32(0);
-  (lateralCounter : i32) = i32(0);
-  (turnCounter : i32) = i32(0);
-  (fastFallCounter : i32) = i32(0);
-  (fadeLineCounter : i32) = i32(0);
-  (gravitySpeed : i32) = i32(30);
+  (mut(gravityCounter) : i32) = i32(0);
+  (mut(lateralCounter) : i32) = i32(0);
+  (mut(turnCounter) : i32) = i32(0);
+  (mut(fastFallCounter) : i32) = i32(0);
+  (mut(fadeLineCounter) : i32) = i32(0);
+  (mut(gravitySpeed) : i32) = i32(30);
 
   // Reusable loop counters
-  (ci : i32) = i32(0);
-  (cj : i32) = i32(0);
+  (mut(ci) : i32) = i32(0);
+  (mut(cj) : i32) = i32(0);
 
   // ═══════════════════ Init grid borders ═══════════════════
   ci = i32(0);
@@ -226,7 +226,7 @@ main :: (fn() -> unit)({
                 );
                 cond(
                   (fadeLineCounter >= FADING_TIME) => {
-                    (deletedLines : i32) = i32(0);
+                    (mut(deletedLines) : i32) = i32(0);
                     cj = (GRID_V - i32(2));
                     while(cj >= i32(0), cj = (cj - i32(1)), {
                       while(grid(grid_idx(i32(1), cj)) == FADING, {
@@ -235,9 +235,9 @@ main :: (fn() -> unit)({
                           grid(grid_idx(ci, cj)) = EMPTY;
                           colorGrid(grid_idx(ci, cj)) = PIECE_NONE;
                         });
-                        (j2 : i32) = (cj - i32(1));
+                        (mut(j2) : i32) = (cj - i32(1));
                         while(j2 >= i32(0), j2 = (j2 - i32(1)), {
-                          (i2 : i32) = i32(1);
+                          (mut(i2) : i32) = i32(1);
                           while(i2 < (GRID_H - i32(1)), i2 = (i2 + i32(1)), {
                             cond(
                               (grid(grid_idx(i2, j2)) == FULL) => {
@@ -494,7 +494,7 @@ main :: (fn() -> unit)({
                         // Check line completion
                         cj = (GRID_V - i32(2));
                         while(cj >= i32(0), cj = (cj - i32(1)), {
-                          (calc : i32) = i32(0);
+                          (mut(calc) : i32) = i32(0);
                           ci = i32(1);
                           while(ci < (GRID_H - i32(1)), ci = (ci + i32(1)), {
                             cond(
@@ -506,7 +506,7 @@ main :: (fn() -> unit)({
                             cond(
                               (calc == (GRID_H - i32(2))) => {
                                 lineToDelete = true;
-                                (zz : i32) = i32(1);
+                                (mut(zz) : i32) = i32(1);
                                 while(zz < (GRID_H - i32(1)), zz = (zz + i32(1)), {
                                   grid(grid_idx(zz, cj)) = FADING;
                                 });
@@ -524,7 +524,7 @@ main :: (fn() -> unit)({
                     // ── Lateral movement ──
                     cond(
                       (lateralCounter >= LATERAL_SPEED) => {
-                        (collision : bool) = false;
+                        (mut(collision) : bool) = false;
                         cond(
                           unsafe(IsKeyDown(KEY_LEFT)) => {
                             cj = (GRID_V - i32(2));
@@ -606,7 +606,7 @@ main :: (fn() -> unit)({
                     // ── Turn movement ──
                     cond(
                       ((turnCounter >= TURNING_SPEED) && unsafe(IsKeyDown(KEY_UP))) => {
-                        (checker : bool) = false;
+                        (mut(checker) : bool) = false;
 
                         // Corner checks
                         cond(
@@ -714,7 +714,7 @@ main :: (fn() -> unit)({
                         cond(
                           !checker => {
                             // Rotate piece matrix (cyclic corner swap)
-                            (aux : i32) = piece(piece_idx(i32(0), i32(0)));
+                            (mut(aux) : i32) = piece(piece_idx(i32(0), i32(0)));
                             piece(piece_idx(i32(0), i32(0))) = piece(piece_idx(i32(3), i32(0)));
                             piece(piece_idx(i32(3), i32(0))) = piece(piece_idx(i32(3), i32(3)));
                             piece(piece_idx(i32(3), i32(3))) = piece(piece_idx(i32(0), i32(3)));
@@ -803,8 +803,8 @@ main :: (fn() -> unit)({
     cond(
       !gameOver => {
         // Calculate grid offset to center it
-        (offsetX : i32) = ((SCREEN_W / i32(2)) - ((GRID_H * SQUARE_SIZE) / i32(2)) - i32(50));
-        (offsetY : i32) = ((((SCREEN_H / i32(2)) - (((GRID_V - i32(1)) * SQUARE_SIZE) / i32(2))) + (SQUARE_SIZE * i32(2))) - i32(50));
+        (mut(offsetX) : i32) = ((SCREEN_W / i32(2)) - ((GRID_H * SQUARE_SIZE) / i32(2)) - i32(50));
+        (mut(offsetY) : i32) = ((((SCREEN_H / i32(2)) - (((GRID_V - i32(1)) * SQUARE_SIZE) / i32(2))) + (SQUARE_SIZE * i32(2))) - i32(50));
         (startX : i32) = offsetX;
 
         // Draw grid
