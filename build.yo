@@ -24,13 +24,6 @@ exe_wasm :: build.executable({
 // Emscripten sysroot instead (see the workflow).
 exe.link(raylib);
 
-// raylib returns `const char *` from TextFormat (and 14 other functions); Yo
-// has no const-pointer spelling, so the binding's `*(char)` result lands in a
-// `char *` temporary, which clang's `-Werror=incompatible-pointer-types`
-// rejects (Yo issue: a c_include function returning a const pointer fails
-// the C compile under clang). Drop this once the compiler casts the result.
-exe.add_c_flags("-Wno-incompatible-pointer-types-discards-qualifiers");
-
 // Emscripten-specific flags: GLFW support and ASYNCIFY for the game loop
 // `-lraylib` is explicit for the WASM target. Native gets raylib through
 // `exe.link(raylib)` / pkg-config, but for wasm32-emscripten raylib is not a
@@ -39,7 +32,7 @@ exe.add_c_flags("-Wno-incompatible-pointer-types-discards-qualifiers");
 // path. Before the v0.2.32 migration this came transitively from
 // `add_import_list(imports)`, which is gone; without it wasm-ld fails with
 // `undefined symbol: DrawLine`.
-exe_wasm.add_c_flags("-sUSE_GLFW=3 -sASYNCIFY -DPLATFORM_WEB -lraylib -Wno-incompatible-pointer-types-discards-qualifiers");
+exe_wasm.add_c_flags("-sUSE_GLFW=3 -sASYNCIFY -DPLATFORM_WEB -lraylib");
 
 install_native :: build.step("install_native", "Build native executable");
 install_native.depend_on(exe);
