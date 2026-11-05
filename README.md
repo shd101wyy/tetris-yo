@@ -1,10 +1,10 @@
-# tetris_yo
+# tetris-yo
 
-[![Build & Deploy](https://github.com/shd101wyy/tetris_yo/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/shd101wyy/tetris_yo/actions/workflows/build-and-deploy.yml)
+[![Build & Deploy](https://github.com/shd101wyy/tetris-yo/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/shd101wyy/tetris-yo/actions/workflows/build-and-deploy.yml)
 
-A classic Tetris game written in [Yo](https://github.com/shd101wyy/Yo) using [raylib_yo](https://github.com/shd101wyy/raylib_yo) bindings.
+A classic Tetris game written in [Yo](https://github.com/shd101wyy/Yo) using [raylib-yo](https://github.com/shd101wyy/raylib-yo) bindings.
 
-**[▶ Play in Browser](https://shd101wyy.github.io/tetris_yo/)**
+**[▶ Play in Browser](https://shd101wyy.github.io/tetris-yo/)**
 
 This project demonstrates:
 - Using Yo's **build system** with git dependencies
@@ -43,12 +43,12 @@ direnv allow .  # One-time setup
 ### Build & Run (Native)
 
 ```bash
-yo install              # Fetch the raylib_yo dependency declared in yo.toml
+yo install              # Fetch the raylib-yo dependency declared in yo.toml
 yo build install_native # Build only the native executable
 yo build run            # Build and run the game
 ```
 
-The compiled binary will be at `yo-out/<target>/bin/tetris_yo` (e.g., `yo-out/x86_64-windows-msvc/bin/tetris_yo.exe`).
+The compiled binary will be at `yo-out/<target>/bin/tetris-yo` (e.g., `yo-out/x86_64-windows-msvc/bin/tetris-yo.exe`).
 
 ### Build for WASM (Browser)
 
@@ -102,7 +102,7 @@ The WASM output will be at `yo-out/wasm32-unknown-emscripten/bin/`. Serve it wit
 ```bash
 cd yo-out/wasm32-unknown-emscripten/bin
 python -m http.server 8080
-# Open http://localhost:8080/tetris_yo_wasm.html
+# Open http://localhost:8080/tetris-yo-wasm.html
 ```
 
 ### Build Steps
@@ -117,7 +117,7 @@ python -m http.server 8080
 ## Project Structure
 
 ```
-tetris_yo/
+tetris-yo/
 ├── .github/workflows/    # CI/CD — builds WASM and deploys to GitHub Pages
 ├── build.yo              # Build configuration (native + WASM targets)
 ├── yo.toml               # Package manifest — [package] and [dependencies]
@@ -142,7 +142,7 @@ The game is a faithful port of the [classic raylib Tetris example](https://githu
 
 ## Dependencies
 
-- [raylib_yo](https://github.com/shd101wyy/raylib_yo) — raylib bindings for Yo, declared in `yo.toml` and resolved by `yo add` / `yo install` (it used to be cloned into `vendor/` by CI)
+- [raylib-yo](https://github.com/shd101wyy/raylib-yo) — raylib bindings for Yo, declared in `yo.toml` and resolved by `yo add` / `yo install` (it used to be cloned into `vendor/` by CI)
 - [raylib](https://www.raylib.com/) — Graphics library (system library via pkg-config)
 
 ## License
