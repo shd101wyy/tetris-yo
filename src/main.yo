@@ -39,7 +39,7 @@ pragma(Pragma.AllowUnsafe);
   GREEN,
   RED,
   PURPLE
-} :: import("raylib_yo");
+} :: import("raylib-yo");
 
 // Grid square states
 EMPTY :: i32(0);

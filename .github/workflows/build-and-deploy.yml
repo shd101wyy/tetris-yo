@@ -71,7 +71,7 @@ jobs:
         run: yo build install_wasm
 
       - name: Prepare Pages artifact
-        run: cp yo-out/wasm32-unknown-emscripten/bin/tetris_yo_wasm.html yo-out/wasm32-unknown-emscripten/bin/index.html
+        run: cp yo-out/wasm32-unknown-emscripten/bin/tetris-yo-wasm.html yo-out/wasm32-unknown-emscripten/bin/index.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

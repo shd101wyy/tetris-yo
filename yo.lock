@@ -2,8 +2,8 @@
 version = 2
 
 [[package]]
-name = "raylib_yo"
-version = "0.0.7"
-source = "git+https://github.com/shd101wyy/raylib_yo#v0.0.7"
-commit = "05a34c6d91a8eb530d748b4550597b1d19da1780"
-integrity = "sha256-9fd33264596a244ba7f7936a974f87cc9a2b200851fb0d0b9b5983d8a499aef5"
+name = "raylib-yo"
+version = "0.0.8"
+source = "git+https://github.com/shd101wyy/raylib-yo#v0.0.8"
+commit = "c2b9bc7713d428cce6bf22b5fdfb1a1eba667a1e"
+integrity = "sha256-a91abf6e1e26cddb623662a89bc6bed7c3bc2c9393c6f986d37568c6671aef33"
